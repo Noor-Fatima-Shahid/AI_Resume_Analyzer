@@ -8,7 +8,7 @@ const ai = new GoogleGenAI({
 async function main() {
   try {
     const response = await ai.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-2.5-flash-lite",
       contents: "Say hello in one sentence."
     });
 
