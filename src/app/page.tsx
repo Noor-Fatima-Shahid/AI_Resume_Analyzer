@@ -9,27 +9,42 @@ export default function Home() {
   const [loading, setLoading] = useState(false);
 
   const MAX_SIZE_MB = 5;
+  function validateFile(selected: File | undefined) {
+  setError(null);
+  setFile(null);
 
-  function handleFileChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const selected = e.target.files?.[0];
+  if (!selected) return;
 
-    setError(null);
-    setFile(null);
-
-    if (!selected) return;
-
-    if (selected.type !== "application/pdf") {
-      setError("Only PDF files are supported.");
-      return;
-    }
-
-    if (selected.size > MAX_SIZE_MB * 1024 * 1024) {
-      setError(`File must be under ${MAX_SIZE_MB}MB.`);
-      return;
-    }
-
-    setFile(selected);
+  if (selected.type !== "application/pdf") {
+    setError("Only PDF files are supported.");
+    return;
   }
+
+  if (selected.size > MAX_SIZE_MB * 1024 * 1024) {
+    setError(`File must be under ${MAX_SIZE_MB}MB.`);
+    return;
+  }
+
+  setFile(selected);
+}
+
+  function handleFileChange(
+  e: React.ChangeEvent<HTMLInputElement>
+) {
+  validateFile(e.target.files?.[0]);
+}
+function handleDrop(
+  e: React.DragEvent<HTMLDivElement>
+) {
+  e.preventDefault();
+
+  validateFile(e.dataTransfer.files?.[0]);
+}
+function handleDragOver(
+  e: React.DragEvent<HTMLDivElement>
+) {
+  e.preventDefault();
+}
 
   async function handleAnalyze() {
     if (!file) {
