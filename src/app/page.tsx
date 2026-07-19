@@ -73,7 +73,12 @@ export default function Home() {
 
       const data = await res.json();
 
-      console.log("API response:", data);
+if (!res.ok) {
+  setError(data.error);
+  return;
+}
+
+console.log("API response:", data);
     } catch {
       setError("Something went wrong. Please try again.");
     } finally {
