@@ -1,9 +1,7 @@
-export default function ResultsPage() {
+export default function Results() {
   return (
-    <main className="flex min-h-screen items-center justify-center">
-      <h1 className="text-3xl font-bold">
-        Results Page (Coming Soon)
-      </h1>
+    <main className="p-8">
+      Results page — coming Day 5.
     </main>
   );
 }
