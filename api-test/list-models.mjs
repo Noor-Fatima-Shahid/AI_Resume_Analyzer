@@ -7,11 +7,12 @@ const ai = new GoogleGenAI({
 
 async function main() {
   try {
-    const models = await ai.models.list();
+    const response = await ai.models.generateContent({
+      model: "models/gemini-2.5-flash",
+      contents: "Say hello in one sentence."
+    });
 
-    for await (const model of models) {
-      console.log(model.name);
-    }
+    console.log(response.text);
   } catch (err) {
     console.error(err);
   }
