@@ -8,7 +8,10 @@ export async function POST(req: NextRequest) {
   const jobDescription = (formData.get("jobDescription") as string) ?? "";
 
   if (!file) {
-    return NextResponse.json({ error: "No file received" }, { status: 400 });
+    return NextResponse.json(
+      { error: "No file received." },
+      { status: 400 }
+    );
   }
 
   const arrayBuffer = await file.arrayBuffer();
@@ -20,7 +23,7 @@ export async function POST(req: NextRequest) {
       {
         error: "The uploaded file is empty. Please choose a valid PDF.",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
@@ -29,11 +32,14 @@ export async function POST(req: NextRequest) {
   try {
     const data = await pdfParse(buffer);
     extractedText = data.text.trim();
+
+    // Temporary log for Day 3 testing
     console.log({
-  filename: file.name,
-  length: extractedText.length,
-  preview: extractedText.slice(0, 300),
-});
+      filename: file.name,
+      length: extractedText.length,
+      preview: extractedText.slice(0, 300),
+    });
+
   } catch (err) {
     console.error("PDF parse error:", err);
 
@@ -42,18 +48,18 @@ export async function POST(req: NextRequest) {
         error:
           "Couldn't read this PDF. It may be corrupted or password-protected.",
       },
-      { status: 400 },
+      { status: 400 }
     );
   }
 
-  // Very little text usually means scanned/image PDF
+  // Scanned or image-only PDF
   if (extractedText.length < 30) {
     return NextResponse.json(
       {
         error:
-          "We couldn't find readable text in this PDF. It may be a scanned image — try exporting your resume as a text-based PDF instead.",
+          "We couldn't find readable text in this PDF. It may be a scanned image. Please upload a text-based PDF.",
       },
-      { status: 422 },
+      { status: 422 }
     );
   }
 
