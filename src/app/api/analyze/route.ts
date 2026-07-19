@@ -29,9 +29,11 @@ export async function POST(req: NextRequest) {
   try {
     const data = await pdfParse(buffer);
     extractedText = data.text.trim();
-    console.log("API ROUTE IS RUNNING");
-console.log("Filename:", file.name);
-console.log("Text length:", extractedText.length);
+    console.log({
+  filename: file.name,
+  length: extractedText.length,
+  preview: extractedText.slice(0, 300),
+});
   } catch (err) {
     console.error("PDF parse error:", err);
 
