@@ -52,7 +52,7 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  // Scanned or image-only PDF
+  // Scanned or image only PDF
   if (extractedText.length < 30) {
     return NextResponse.json(
       {
