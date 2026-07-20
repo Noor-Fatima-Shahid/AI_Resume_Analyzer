@@ -1,4 +1,4 @@
-import Anthropic from "@anthropic-ai/sdk";
+import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT } from "./prompt";
 
 const apiKey = process.env.AI_API_KEY;
@@ -7,7 +7,7 @@ if (!apiKey) {
   throw new Error("AI_API_KEY is missing.");
 }
 
-const client = new Anthropic({
+const ai = new GoogleGenAI({
   apiKey,
 });
 
@@ -37,39 +37,23 @@ ${resumeText}
 
 No job description was provided.`;
 
-  const response = await client.messages.create({
-    model: "claude-sonnet-4-6",
-    max_tokens: 1500,
-    system: SYSTEM_PROMPT,
-    messages: [
-      {
-        role: "user",
-        content: userMessage,
-      },
-    ],
+  const response = await ai.models.generateContent({
+    model: "gemini-2.5-flash",
+    contents: `${SYSTEM_PROMPT}\n\n${userMessage}`,
   });
 
-  const rawText = response.content
-    .filter((block) => block.type === "text")
-    .map((block) => block.text)
-    .join("");
+  const rawText = response.text ?? "";
 
-  // Remove markdown fences if Claude adds them
   const cleaned = rawText
     .replace(/```json\s*/g, "")
     .replace(/```/g, "")
     .trim();
 
-  let parsed: AnalysisResult;
-
   try {
-    parsed = JSON.parse(cleaned);
+    return JSON.parse(cleaned) as AnalysisResult;
   } catch (err) {
-    console.error("Failed to parse AI response:");
-    console.error(cleaned);
-
+    console.error("Gemini response:");
+    console.error(rawText);
     throw new Error("AI_PARSE_ERROR");
   }
-
-  return parsed;
 }
