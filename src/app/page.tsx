@@ -96,21 +96,23 @@ export default function Home() {
     setError(null);
   }
 
-  // ============================
+  // ==========================
   // RESULTS SCREEN
-  // ============================
+  // ==========================
 
   if (result) {
     return (
-      <main className="max-w-3xl mx-auto p-8">
+      <main className="max-w-3xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
 
         <h1 className="text-3xl font-bold text-center mb-8">
           Resume Analysis
         </h1>
 
-        <ScoreBadge score={result.score} />
+        <div className="flex justify-center my-8">
+          <ScoreBadge score={result.score} />
+        </div>
 
-        <div className="mt-10">
+        <div className="space-y-8">
 
           <FeedbackSection
             title="Strengths"
@@ -128,7 +130,7 @@ export default function Home() {
             emptyMessage="No job description provided, or no missing skills found."
           />
 
-          <div className="mt-8">
+          <div>
             <h2 className="text-xl font-semibold mb-4">
               Suggestions
             </h2>
@@ -138,26 +140,31 @@ export default function Home() {
             />
           </div>
 
-          <button
-            onClick={resetAnalyzer}
-            className="mt-10 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
-          >
-            Analyze Another Resume
-          </button>
+          <div className="flex justify-center">
+
+            <button
+              onClick={resetAnalyzer}
+              className="w-full sm:w-auto bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg transition"
+            >
+              Analyze Another Resume
+            </button>
+
+          </div>
 
         </div>
+
       </main>
     );
   }
 
-  // ============================
+  // ==========================
   // UPLOAD SCREEN
-  // ============================
+  // ==========================
 
   return (
-    <main className="max-w-xl mx-auto p-8">
+    <main className="max-w-xl mx-auto px-4 py-8 sm:px-6 lg:px-8">
 
-      <h1 className="text-3xl font-bold mb-8 text-center">
+      <h1 className="text-3xl font-bold text-center mb-8">
         AI Resume Analyzer
       </h1>
 
@@ -172,7 +179,7 @@ export default function Home() {
         <div
           onDrop={handleDrop}
           onDragOver={handleDragOver}
-          className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center"
+          className="w-full border-2 border-dashed border-gray-400 rounded-lg p-6 text-center"
         >
 
           <input
@@ -180,7 +187,7 @@ export default function Home() {
             accept="application/pdf"
             onChange={handleFileChange}
             disabled={loading}
-            className="mb-3"
+            className="w-full mb-3"
           />
 
           <p className="text-gray-600">
@@ -192,7 +199,7 @@ export default function Home() {
           </p>
 
           {file && (
-            <p className="text-green-600 mt-3 font-medium">
+            <p className="text-green-600 mt-3 font-medium break-all">
               ✅ Selected: {file.name}
             </p>
           )}
@@ -210,7 +217,7 @@ export default function Home() {
         </label>
 
         <textarea
-          className="w-full border rounded-lg p-3"
+          className="w-full border rounded-lg p-3 resize-y"
           rows={6}
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
@@ -230,19 +237,23 @@ export default function Home() {
 
       {/* Analyze Button */}
 
-      <button
-        onClick={handleAnalyze}
-        disabled={loading}
-        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 flex items-center gap-2"
-      >
+      <div className="flex justify-center">
 
-        {loading && (
-          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
-        )}
+        <button
+          onClick={handleAnalyze}
+          disabled={loading}
+          className="w-full sm:w-auto bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 flex items-center justify-center gap-2 transition"
+        >
 
-        {loading ? "Analyzing..." : "Analyze Resume"}
+          {loading && (
+            <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          )}
 
-      </button>
+          {loading ? "Analyzing..." : "Analyze Resume"}
+
+        </button>
+
+      </div>
 
     </main>
   );
