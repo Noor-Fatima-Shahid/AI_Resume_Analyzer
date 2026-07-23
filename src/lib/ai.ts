@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_PROMPT } from "./prompt";
 
-const apiKey = process.env.AI_API_KEY;
+const apiKey = process.env.GEMINI_API_KEY;
 
 if (!apiKey) {
   throw new Error("AI_API_KEY is missing.");
@@ -38,7 +38,7 @@ ${resumeText}
 No job description was provided.`;
 
   const response = await ai.models.generateContent({
-    model: "gemini-2.0-flash",
+    model: "models/gemini-3-flash-preview",
     contents: `${SYSTEM_PROMPT}\n\n${userMessage}`,
   });
 
