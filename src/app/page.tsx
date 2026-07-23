@@ -1,16 +1,20 @@
 "use client";
 
 import { useState } from "react";
+import ScoreBadge from "@/components/ScoreBadge";
+import FeedbackSection from "@/components/FeedbackSection";
+import SuggestionCards from "@/components/SuggestionCards";
+import type { AnalysisResult } from "@/lib/types";
 
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [result, setResult] = useState<AnalysisResult | null>(null);
 
   const MAX_SIZE_MB = 5;
 
-  // Validate uploaded file
   function validateFile(selected: File | undefined) {
     setError(null);
     setFile(null);
@@ -30,14 +34,12 @@ export default function Home() {
     setFile(selected);
   }
 
-  // Handle file selection using the file picker
   function handleFileChange(
     e: React.ChangeEvent<HTMLInputElement>
   ) {
     validateFile(e.target.files?.[0]);
   }
 
-  // Handle drag-and-drop
   function handleDrop(
     e: React.DragEvent<HTMLDivElement>
   ) {
@@ -45,7 +47,6 @@ export default function Home() {
     validateFile(e.dataTransfer.files?.[0]);
   }
 
-  // Allow dropping by preventing default browser behavior
   function handleDragOver(
     e: React.DragEvent<HTMLDivElement>
   ) {
@@ -60,6 +61,7 @@ export default function Home() {
 
     setLoading(true);
     setError(null);
+    setResult(null);
 
     const formData = new FormData();
     formData.append("resume", file);
@@ -73,27 +75,96 @@ export default function Home() {
 
       const data = await res.json();
 
-if (!res.ok) {
-  setError(data.error);
-  return;
-}
+      if (!res.ok) {
+        setError(data.error ?? "Something went wrong.");
+        return;
+      }
 
-console.log("API response:", data);
+      console.log("API response:", data);
+      setResult(data);
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Network error. Please try again.");
     } finally {
       setLoading(false);
     }
   }
 
+  function resetAnalyzer() {
+    setResult(null);
+    setFile(null);
+    setJobDescription("");
+    setError(null);
+  }
+
+  // ============================
+  // RESULTS SCREEN
+  // ============================
+
+  if (result) {
+    return (
+      <main className="max-w-3xl mx-auto p-8">
+
+        <h1 className="text-3xl font-bold text-center mb-8">
+          Resume Analysis
+        </h1>
+
+        <ScoreBadge score={result.score} />
+
+        <div className="mt-10">
+
+          <FeedbackSection
+            title="Strengths"
+            items={result.strengths}
+          />
+
+          <FeedbackSection
+            title="Weaknesses"
+            items={result.weaknesses}
+          />
+
+          <FeedbackSection
+            title="Missing Skills"
+            items={result.missingSkills}
+            emptyMessage="No job description provided, or no missing skills found."
+          />
+
+          <div className="mt-8">
+            <h2 className="text-xl font-semibold mb-4">
+              Suggestions
+            </h2>
+
+            <SuggestionCards
+              suggestions={result.suggestions}
+            />
+          </div>
+
+          <button
+            onClick={resetAnalyzer}
+            className="mt-10 bg-green-600 hover:bg-green-700 text-white px-6 py-3 rounded-lg"
+          >
+            Analyze Another Resume
+          </button>
+
+        </div>
+      </main>
+    );
+  }
+
+  // ============================
+  // UPLOAD SCREEN
+  // ============================
+
   return (
     <main className="max-w-xl mx-auto p-8">
-      <h1 className="text-2xl font-bold mb-6 text-center">
+
+      <h1 className="text-3xl font-bold mb-8 text-center">
         AI Resume Analyzer
       </h1>
 
-      {/* Resume Upload */}
+      {/* Upload */}
+
       <div className="mb-6">
+
         <label className="block mb-2 font-medium">
           Resume (PDF only, max {MAX_SIZE_MB}MB)
         </label>
@@ -103,10 +174,12 @@ console.log("API response:", data);
           onDragOver={handleDragOver}
           className="border-2 border-dashed border-gray-400 rounded-lg p-6 text-center"
         >
+
           <input
             type="file"
             accept="application/pdf"
             onChange={handleFileChange}
+            disabled={loading}
             className="mb-3"
           />
 
@@ -115,7 +188,7 @@ console.log("API response:", data);
           </p>
 
           <p className="text-gray-500 text-sm">
-            or click the button above to choose a file
+            or click above to choose a file
           </p>
 
           {file && (
@@ -123,11 +196,15 @@ console.log("API response:", data);
               ✅ Selected: {file.name}
             </p>
           )}
+
         </div>
+
       </div>
 
       {/* Job Description */}
+
       <div className="mb-6">
+
         <label className="block mb-2 font-medium">
           Job Description (Optional)
         </label>
@@ -138,10 +215,13 @@ console.log("API response:", data);
           value={jobDescription}
           onChange={(e) => setJobDescription(e.target.value)}
           placeholder="Paste the job description here..."
+          disabled={loading}
         />
+
       </div>
 
-      {/* Error Message */}
+      {/* Error */}
+
       {error && (
         <p className="text-red-600 mb-4">
           {error}
@@ -149,13 +229,21 @@ console.log("API response:", data);
       )}
 
       {/* Analyze Button */}
+
       <button
         onClick={handleAnalyze}
         disabled={loading}
-        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg disabled:opacity-50"
+        className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg disabled:opacity-50 flex items-center gap-2"
       >
+
+        {loading && (
+          <span className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        )}
+
         {loading ? "Analyzing..." : "Analyze Resume"}
+
       </button>
+
     </main>
   );
 }
