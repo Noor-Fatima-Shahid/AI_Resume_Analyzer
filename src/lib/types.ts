@@ -7,7 +7,13 @@ export interface AnalysisResult {
 }
 
 export function scoreColor(score: number): string {
-  if (score >= 80) return "text-green-600 border-green-600";
-  if (score >= 60) return "text-yellow-600 border-yellow-600";
-  return "text-red-600 border-red-600";
+  if (score >= 80) {
+    return "border-green-500 text-green-600";
+  }
+
+  if (score >= 60) {
+    return "border-yellow-500 text-yellow-600";
+  }
+
+  return "border-red-500 text-red-600";
 }

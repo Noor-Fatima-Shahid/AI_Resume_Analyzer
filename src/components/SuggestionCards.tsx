@@ -1,18 +1,20 @@
-export default function SuggestionCards({
-  suggestions,
-}: {
-  suggestions: string[];
-}) {
+export default function SuggestionCards({ suggestions }: { suggestions: string[] }) {
+  if (suggestions.length === 0) {
+    return (
+      <p className="text-sm text-gray-500 italic">
+        No suggestions available yet.
+      </p>
+    );
+  }
+
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="space-y-3">
       {suggestions.map((suggestion, index) => (
         <div
           key={index}
-          className="border rounded-lg p-4 bg-blue-50"
+          className="rounded-xl border border-gray-200 bg-gray-50 p-4 text-sm text-gray-700 leading-relaxed"
         >
-          <p className="text-sm">
-            {suggestion}
-          </p>
+          {suggestion}
         </div>
       ))}
     </div>
