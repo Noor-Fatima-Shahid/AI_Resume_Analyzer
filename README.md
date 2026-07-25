@@ -6,8 +6,11 @@
 ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
 ![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-**Live Demo:** [ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
-**Repository:** [github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer](https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer)
+**Live Demo:**
+ [ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
+
+**Repository:** 
+[github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer](https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer)
 
 ---
 
