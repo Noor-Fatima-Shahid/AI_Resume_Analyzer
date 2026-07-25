@@ -1,14 +1,25 @@
 # AI Resume Analyzer
 
-**Live App:** [ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=next.js&logoColor=white)
+![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
+![Gemini AI](https://img.shields.io/badge/Gemini%20AI-8E75B2?style=for-the-badge&logo=googlegemini&logoColor=white)
+![Tailwind CSS](https://img.shields.io/badge/Tailwind%20CSS-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
 
-## What It Does & The Problem It Solves
+**Live Demo:** [ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
+**Repository:** [github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer](https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer)
 
-Job seekers — especially students and early-career applicants — often have no idea whether their resume will actually pass an Applicant Tracking System (ATS) or match a specific job posting before they hit "Apply." Most resume advice online is generic and doesn't reference the applicant's actual content or the specific job they're targeting.
+---
 
-**AI Resume Analyzer** solves this by letting a user upload their resume (PDF) and paste a real job description. The app then uses AI to score the resume, compare it directly against the job requirements, and return specific, actionable feedback — not generic tips, but suggestions that reference the user's actual resume content and the actual job posting.
+## Project Overview
 
-**Who it's for:** Students and job seekers (like myself, applying for ML/AI internships) who want to optimize their resume for a specific role before submitting it, without paying for a career coach or guessing what recruiters are looking for.
+**AI Resume Analyzer** lets a user upload their resume (PDF) and paste a real job description. The app then uses AI to score the resume, compare it directly against the job requirements, and return specific, actionable feedback — not generic tips, but suggestions that reference the user's actual resume content and the actual job posting.
+
+## Problem Statement
+
+Job seekers — especially students and early-career applicants — often have no idea whether their resume will actually pass an Applicant Tracking System (ATS) or match a specific job posting before they hit "Apply." Most resume advice online is generic and doesn't reference the applicant's actual content or the specific job they're targeting. Paid career coaching isn't accessible to most students, and free tools online are often static keyword checkers with no real understanding of context.
+
+**Who it's for:** Students and job seekers — including myself, while applying for ML/AI internships — who want to optimize a resume for a specific role before submitting it, using their own real resume and real job descriptions rather than generic advice.
 
 ## Features
 
@@ -19,12 +30,33 @@ Job seekers — especially students and early-career applicants — often have n
 - **Areas for Improvement** — specific weaknesses flagged for the candidate to fix
 - **Missing Top-Tier Skills** — keywords/skills present in the job description but absent from the resume
 - **AI Strategic Suggestions** — actionable, resume-specific edits (e.g. "quantify the results of Project X")
-- **Next Steps Panel** — a simple 3-step action plan (review flags → apply edits → re-run analysis)
-- **ATS-Friendly Format Check** — flags whether the resume structure is likely to parse correctly in standard ATS software
-- **Download Report** — export the analysis
+- **Download Report** — export the analysis results
 - **Analyze Another Resume** — re-run the flow without reloading the app
 
-## The AI Feature
+## Tech Stack
+
+**Frontend**
+- Next.js
+- React
+- TypeScript
+- Tailwind CSS
+
+**Backend**
+- Next.js API Routes
+
+**AI**
+- Google Gemini API
+
+**PDF Processing**
+- pdf-parse
+
+**Deployment**
+- Vercel
+
+**Version Control**
+- Git + GitHub
+
+## AI Workflow
 
 The core AI feature is a **resume-to-job-description matching and scoring engine** powered by the Gemini API. When a user submits their resume text (extracted from the uploaded PDF) and, optionally, a job description, the AI:
 
@@ -36,7 +68,9 @@ The core AI feature is a **resume-to-job-description matching and scoring engine
 
 The AI is instructed to return **strictly structured JSON** (no markdown, no extra commentary) so the frontend can render it directly into the score ring, strengths/weaknesses lists, and suggestion cards. It also follows a fixed scoring rubric and consistency rules so the same resume doesn't get wildly different scores on repeated runs.
 
-**System Prompt (full, written by me):**
+The complete system prompt is available in: `src/lib/prompt.ts`
+
+**Key excerpt:**
 
 ```
 You are an expert ATS resume reviewer, recruiter, and career coach.
@@ -45,60 +79,13 @@ You will receive:
 1. The text extracted from a candidate's resume.
 2. Optionally, a job description.
 
-Your responsibilities:
-
-1. Evaluate the overall quality of the resume.
-2. If a job description is provided, evaluate how well the resume matches it.
-3. Identify concrete strengths.
-4. Identify concrete weaknesses.
-5. If a job description exists, identify missing skills or keywords.
-6. Give specific, actionable suggestions that reference the resume content whenever possible.
-
-SCORING RUBRIC
-
-90-100
-Outstanding resume. Excellent structure, strong technical content, measurable achievements, highly relevant skills, and very few improvements needed.
-
-80-89
-Strong resume with only minor weaknesses. Suitable for many applications with small improvements.
-
-70-79
-Good resume but several improvements are recommended to improve clarity, impact, or ATS compatibility.
-
-60-69
-Average resume with noticeable weaknesses such as vague descriptions, missing achievements, weak formatting, or limited technical evidence.
-
-40-59
-Weak resume with significant issues affecting readability or competitiveness.
-
-0-39
-Poor resume requiring major rewriting.
-
 SCORING RULES
-
 - Use the scoring rubric above.
 - Evaluate the same resume consistently.
-- If the resume has not changed, keep the score within approximately 3-5 points between evaluations.
-- Do NOT randomly increase or decrease the score.
 - Determine strengths and weaknesses BEFORE assigning the score.
-- Base the score only on the actual resume content.
-- Do not invent information.
-- Be objective and consistent.
+- Base the score only on the actual resume content. Do not invent information.
 
-JOB DESCRIPTION RULES
-
-- If a job description is provided, adjust the score based on how well the resume matches it.
-- If no job description is provided, evaluate only the resume quality.
-- If no job description exists, "missingSkills" MUST be an empty array.
-
-Return ONLY valid JSON.
-
-Do not include markdown.
-Do not include explanation text.
-Do not include code fences.
-
-The JSON must have EXACTLY this structure:
-
+Return ONLY valid JSON:
 {
   "score": 0,
   "strengths": [],
@@ -106,23 +93,7 @@ The JSON must have EXACTLY this structure:
   "missingSkills": [],
   "suggestions": []
 }
-
-Rules:
-
-- score must be an integer between 0 and 100.
-- strengths must contain 3 to 6 items.
-- weaknesses must contain 3 to 6 items.
-- suggestions must contain 3 to 6 items.
-- missingSkills must contain 0 to 6 items.
-- Do not add extra fields.
 ```
-
-## Tools, Services & AI Models Used
-
-- **Frontend/Framework:** Next.js (React)
-- **AI Model:** Google Gemini API
-- **Deployment/Hosting:** Vercel
-- **Version Control:** Git & GitHub
 
 ## Screenshots
 
@@ -142,7 +113,25 @@ Rules:
 
 ![Suggestions panel](./src/app/ScreenShots/Suggestions.jpeg)
 
-## How to Run the Project Locally
+**5. Download Report**
+
+![Download](./src/app/ScreenShots/Download_Report.jpeg)
+
+
+## Project Structure
+
+```
+src/
+ app/
+ components/
+ lib/
+ public/
+
+README.md
+package.json
+```
+
+## How to Run
 
 1. **Clone the repository**
    ```bash
@@ -170,12 +159,29 @@ Rules:
 
 5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Live Deployment
+## Known Limitations
 
-The app is deployed on Vercel and publicly accessible at:
+- Scanned/image-only PDFs cannot be analyzed because no OCR is implemented.
+- Multi-column resumes may extract text imperfectly.
+- AI responses can vary slightly between analyses.
+- Requires a valid Gemini API key and available quota.
 
-**[https://ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)**
+## Future Improvements
 
----
+- OCR support for scanned resumes
+- Real ATS formatting analysis
+- Authentication and saved resume history
+- Multiple resume comparison
+- Cover letter generation
 
-Built by Noor Fatima Shahid
+## Live Demo
+
+[https://ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
+
+## Repository
+
+[https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer](https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer)
+
+## Author
+
+Noor Fatima Shahid
