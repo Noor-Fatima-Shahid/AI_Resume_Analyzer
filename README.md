@@ -124,17 +124,19 @@ Return ONLY valid JSON:
 ## Project Structure
 
 ```
-src/
- app/
- components/
- lib/
- public/
-
-README.md
-package.json
+AI_Resume_Analyzer
+│
+├── src
+│   ├── app
+│   ├── components
+│   └── lib
+│
+├── public
+├── README.md
+└── package.json
 ```
 
-## How to Run
+## Run Locally
 
 1. **Clone the repository**
    ```bash
@@ -177,14 +179,11 @@ package.json
 - Multiple resume comparison
 - Cover letter generation
 
-## Live Demo
-
-[https://ai-resume-analyzer-drab-pi.vercel.app](https://ai-resume-analyzer-drab-pi.vercel.app)
-
-## Repository
-
-[https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer](https://github.com/Noor-Fatima-Shahid/AI_Resume_Analyzer)
-
 ## Author
 
-Noor Fatima Shahid
+**Noor Fatima Shahid**
+
+BS Computer Science Student
+
+GitHub:
+https://github.com/Noor-Fatima-Shahid
