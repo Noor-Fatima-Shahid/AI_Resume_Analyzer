@@ -128,19 +128,19 @@ Rules:
 
 **1. Landing / Upload screen — empty state**
 
-![Upload screen](./screenshots/Upload-screen.jpeg)
+![Upload screen](./src/app/ScreenShots/Upload_screen.jpeg)
 
 **2. Resume uploaded + job description filled in**
 
-![Filled in form](./screenshots/Filled-Form.jpeg)
+![Filled in form](./src/app/ScreenShots/Filled_Form.jpeg)
 
 **3. Analysis results — score, strengths, and areas for improvement**
 
-![Analysis results](./screenshots/Results.jpeg)
+![Analysis results](./src/app/ScreenShots/Results.jpeg)
 
 **4. Missing skills & AI strategic suggestions**
 
-![Suggestions panel](./screenshots/Suggestions.jpeg)
+![Suggestions panel](./src/app/ScreenShots/Suggestions.jpeg)
 
 ## How to Run the Project Locally
 
