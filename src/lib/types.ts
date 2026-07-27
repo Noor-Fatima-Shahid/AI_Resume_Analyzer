@@ -1,9 +1,19 @@
-export interface AnalysisResult {
+export interface KeywordMatch {
+  percentage: number;
+  matchedCount: number;
+  totalCount: number;
+}
+
+export interface AIResponse {
   score: number;
   strengths: string[];
   weaknesses: string[];
   missingSkills: string[];
   suggestions: string[];
+}
+
+export interface AnalysisResult extends AIResponse {
+  keywordMatch: KeywordMatch;
 }
 
 export function scoreColor(score: number): string {

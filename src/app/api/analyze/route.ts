@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
-import { analyzeResume } from "@/lib/ai";
+import { analyzeResume, computeKeywordMatch } from "@/lib/ai";
+import type { AnalysisResult } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
   const formData = await req.formData();
@@ -59,10 +60,16 @@ export async function POST(req: NextRequest) {
   }
 
   try {
-    const result = await analyzeResume(
+    const aiResult = await analyzeResume(
       extractedText,
       jobDescription
     );
+
+    const keywordMatch = jobDescription.trim()
+      ? computeKeywordMatch(extractedText, jobDescription)
+      : { matchedCount: 0, totalCount: 0, percentage: 0 };
+
+    const result: AnalysisResult = { ...aiResult, keywordMatch };
 
     console.log("AI Result:", result);
 

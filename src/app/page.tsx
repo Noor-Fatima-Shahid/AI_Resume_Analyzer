@@ -10,7 +10,7 @@ import SuggestionCards from "@/components/SuggestionCards";
 import MissingSkillTags from "@/components/MissingSkillTags";
 
 import type { AnalysisResult } from "@/lib/types";
-
+import KeywordMatchBar from "@/components/KeywordMatchBar";
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
@@ -143,6 +143,11 @@ export default function Home() {
                 </div>
               </Card>
             </div>
+            {result.keywordMatch.totalCount > 0 && (
+              <Card>
+                <KeywordMatchBar keywordMatch={result.keywordMatch} />
+              </Card>
+            )}
 
             {/* Row 2: Strengths + Weaknesses */}
             <div className="grid lg:grid-cols-2 gap-6">
