@@ -8,7 +8,7 @@ const LABELS: Record<keyof SubScores, string> = {
 };
 
 function barColor(value: number) {
-  if (value >= 70) return "bg-green-500";
+  if (value >= 70) return "bg-blue-600";
   if (value >= 40) return "bg-yellow-500";
   return "bg-red-500";
 }

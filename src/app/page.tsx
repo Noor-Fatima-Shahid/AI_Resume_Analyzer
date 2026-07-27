@@ -118,20 +118,6 @@ export default function Home() {
                   </p>
                   <SubScoreBars subScores={result.subScores} />
                 </div>
-
-                <div className="w-full mt-8 text-left">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
-                    Score Breakdown
-                  </p>
-                  <SubScoreBars subScores={result.subScores} />
-                </div>
-
-                <div className="w-full mt-8 text-left">
-                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
-                    Score Breakdown
-                  </p>
-                  <SubScoreBars subScores={result.subScores} />
-                </div>
               </Card>
 
               <Card className="flex flex-col">
