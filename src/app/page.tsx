@@ -108,9 +108,30 @@ export default function Home() {
           <div className="max-w-6xl mx-auto space-y-6">
             {/* Row 1: Score + Insight Summary */}
             <div className="grid md:grid-cols-2 gap-6">
-              <Card className="flex flex-col items-center justify-center text-center">
+              <Card className="flex flex-col items-center text-center">
                 <h2 className="font-semibold text-gray-900 mb-6">Resume Score</h2>
                 <ScoreBadge score={result.score} />
+
+                <div className="w-full mt-8 text-left">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
+                    Score Breakdown
+                  </p>
+                  <SubScoreBars subScores={result.subScores} />
+                </div>
+
+                <div className="w-full mt-8 text-left">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
+                    Score Breakdown
+                  </p>
+                  <SubScoreBars subScores={result.subScores} />
+                </div>
+
+                <div className="w-full mt-8 text-left">
+                  <p className="text-xs font-semibold uppercase tracking-wide text-gray-400 mb-4">
+                    Score Breakdown
+                  </p>
+                  <SubScoreBars subScores={result.subScores} />
+                </div>
               </Card>
 
               <Card className="flex flex-col">
