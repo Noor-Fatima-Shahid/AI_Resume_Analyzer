@@ -35,6 +35,8 @@ Job seekers — especially students and early-career applicants — often have n
 - **Key Strengths** — concrete strengths pulled directly from the resume content
 - **Areas for Improvement** — specific weaknesses flagged for the candidate to fix
 - **Missing Top-Tier Skills** — keywords/skills present in the job description but absent from the resume
+- **Job Description Match** — a computed percentage showing how many key terms from the job description actually appear in the resume, independent of the AI's subjective scoring
+- **Score Breakdown** — the overall score is decomposed into four sub-scores (Formatting, Keyword Relevance, Quantified Impact, ATS Compatibility), so the result is explainable rather than a single opaque number
 - **AI Strategic Suggestions** — actionable, resume-specific edits (e.g. "quantify the results of Project X")
 - **Download Report** — export the analysis results
 - **Analyze Another Resume** — re-run the flow without reloading the app
