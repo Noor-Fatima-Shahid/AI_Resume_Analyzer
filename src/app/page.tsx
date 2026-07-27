@@ -11,6 +11,7 @@ import MissingSkillTags from "@/components/MissingSkillTags";
 
 import type { AnalysisResult } from "@/lib/types";
 import KeywordMatchBar from "@/components/KeywordMatchBar";
+import SubScoreBars from "@/components/SubScoreBars";
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");

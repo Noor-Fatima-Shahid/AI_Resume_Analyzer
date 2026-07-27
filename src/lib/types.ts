@@ -4,8 +4,16 @@ export interface KeywordMatch {
   totalCount: number;
 }
 
+export interface SubScores {
+  formatting: number;
+  keywordRelevance: number;
+  impact: number;
+  atsCompatibility: number;
+}
+
 export interface AIResponse {
   score: number;
+  subScores: SubScores;
   strengths: string[];
   weaknesses: string[];
   missingSkills: string[];
