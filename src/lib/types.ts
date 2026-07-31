@@ -2,6 +2,8 @@ export interface KeywordMatch {
   percentage: number;
   matchedCount: number;
   totalCount: number;
+  matchedTerms: string[];
+  missingTerms: string[];
 }
 
 export interface SubScores {
@@ -11,9 +13,16 @@ export interface SubScores {
   atsCompatibility: number;
 }
 
+export interface AtsCheck {
+  isAtsFriendly: boolean;
+  issues: string[];
+}
+
 export interface AIResponse {
   score: number;
+  summary: string;
   subScores: SubScores;
+  keywordMatch: KeywordMatch;
   strengths: string[];
   weaknesses: string[];
   missingSkills: string[];
@@ -21,7 +30,7 @@ export interface AIResponse {
 }
 
 export interface AnalysisResult extends AIResponse {
-  keywordMatch: KeywordMatch;
+  atsCheck: AtsCheck;
 }
 
 export function scoreColor(score: number): string {

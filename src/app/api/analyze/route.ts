@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
-import { analyzeResume, computeKeywordMatch } from "@/lib/ai";
+import { analyzeResume } from "@/lib/ai";
+import { checkAtsFormatting } from "@/lib/atsCheck";
 import type { AnalysisResult } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -65,11 +66,8 @@ export async function POST(req: NextRequest) {
       jobDescription
     );
 
-    const keywordMatch = jobDescription.trim()
-      ? computeKeywordMatch(extractedText, jobDescription)
-      : { matchedCount: 0, totalCount: 0, percentage: 0 };
-
-    const result: AnalysisResult = { ...aiResult, keywordMatch };
+    const atsCheck = checkAtsFormatting(buffer, extractedText);
+    const result: AnalysisResult = { ...aiResult, atsCheck };
 
     console.log("AI Result:", result);
 

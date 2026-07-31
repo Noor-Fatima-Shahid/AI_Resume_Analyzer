@@ -8,7 +8,7 @@ import ScoreBadge from "@/components/ScoreBadge";
 import FeedbackSection from "@/components/FeedbackSection";
 import SuggestionCards from "@/components/SuggestionCards";
 import MissingSkillTags from "@/components/MissingSkillTags";
-
+import AtsFormattingCheck from "@/components/AtsFormattingCheck";
 import type { AnalysisResult } from "@/lib/types";
 import KeywordMatchBar from "@/components/KeywordMatchBar";
 import SubScoreBars from "@/components/SubScoreBars";
@@ -122,8 +122,8 @@ export default function Home() {
 
               <Card className="flex flex-col">
                 <h2 className="font-semibold text-gray-900 mb-1">Insight Summary</h2>
-                <p className="text-sm text-gray-500 mb-5">
-                  AI-powered breakdown of your current professional profile.
+                <p className="text-sm text-gray-700 mb-5 leading-relaxed">
+                  {result.summary}
                 </p>
 
                 <div className="space-y-3 flex-1">
@@ -189,6 +189,11 @@ export default function Home() {
               <MissingSkillTags skills={result.missingSkills} />
             </Card>
 
+            {/* Row 3.5: ATS Formatting Check */}
+            <Card>
+              <AtsFormattingCheck atsCheck={result.atsCheck} />
+            </Card>
+
             {/* Row 4: Suggestions + Next Steps */}
             <div className="grid lg:grid-cols-3 gap-6">
               <Card className="lg:col-span-2">
@@ -220,13 +225,27 @@ export default function Home() {
                   </div>
                 </div>
 
-                <div className="rounded-2xl p-6 sm:p-7 shadow-sm bg-blue-600 text-center">
+                <div
+                  className={`rounded-2xl p-6 sm:p-7 shadow-sm text-center ${
+                    result.atsCheck.isAtsFriendly ? "bg-blue-600" : "bg-yellow-500"
+                  }`}
+                >
                   <div className="w-10 h-10 rounded-full bg-white/15 flex items-center justify-center mx-auto mb-3">
-                    <span className="text-white font-bold">✓</span>
+                    <span className="text-white font-bold">
+                      {result.atsCheck.isAtsFriendly ? "✓" : "⚠"}
+                    </span>
                   </div>
-                  <p className="text-white font-semibold text-sm mb-1">ATS-Friendly Format</p>
-                  <p className="text-blue-100 text-xs leading-relaxed">
-                    Structure was checked against common applicant-tracking parsing rules.
+                  <p className="text-white font-semibold text-sm mb-1">
+                    {result.atsCheck.isAtsFriendly
+                      ? "ATS-Friendly Format"
+                      : `${result.atsCheck.issues.length} Formatting Issue${
+                          result.atsCheck.issues.length > 1 ? "s" : ""
+                        }`}
+                  </p>
+                  <p className="text-white/90 text-xs leading-relaxed">
+                    {result.atsCheck.isAtsFriendly
+                      ? "No structural issues detected in this scan."
+                      : "See the ATS Formatting Check section above for details."}
                   </p>
                 </div>
               </div>
