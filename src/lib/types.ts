@@ -18,6 +18,11 @@ export interface AtsCheck {
   issues: string[];
 }
 
+export interface ResumeSections {
+  detectedSections: string[];
+  missingSections: string[];
+}
+
 export interface AIResponse {
   score: number;
   summary: string;
@@ -31,6 +36,7 @@ export interface AIResponse {
 
 export interface AnalysisResult extends AIResponse {
   atsCheck: AtsCheck;
+  resumeSections: ResumeSections;
 }
 
 export function scoreColor(score: number): string {

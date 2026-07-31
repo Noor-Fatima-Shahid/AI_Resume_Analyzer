@@ -12,6 +12,7 @@ import AtsFormattingCheck from "@/components/AtsFormattingCheck";
 import type { AnalysisResult } from "@/lib/types";
 import KeywordMatchBar from "@/components/KeywordMatchBar";
 import SubScoreBars from "@/components/SubScoreBars";
+import ResumeSectionsCheck from "@/components/ResumeSectionsCheck";
 export default function Home() {
   const [file, setFile] = useState<File | null>(null);
   const [jobDescription, setJobDescription] = useState("");
@@ -187,6 +188,11 @@ export default function Home() {
               </p>
 
               <MissingSkillTags skills={result.missingSkills} />
+            </Card>
+
+            {/* Row 3.4: Resume Sections */}
+            <Card>
+              <ResumeSectionsCheck resumeSections={result.resumeSections} />
             </Card>
 
             {/* Row 3.5: ATS Formatting Check */}

@@ -2,6 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 import pdfParse from "pdf-parse/lib/pdf-parse.js";
 import { analyzeResume } from "@/lib/ai";
 import { checkAtsFormatting } from "@/lib/atsCheck";
+import { checkResumeSections } from "@/lib/sectionCheck";
 import type { AnalysisResult } from "@/lib/types";
 
 export async function POST(req: NextRequest) {
@@ -67,7 +68,8 @@ export async function POST(req: NextRequest) {
     );
 
     const atsCheck = checkAtsFormatting(buffer, extractedText);
-    const result: AnalysisResult = { ...aiResult, atsCheck };
+    const resumeSections = checkResumeSections(extractedText);
+    const result: AnalysisResult = { ...aiResult, atsCheck, resumeSections };
 
     console.log("AI Result:", result);
 
